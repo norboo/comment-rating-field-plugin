@@ -20,6 +20,7 @@ the comment text.
 1. Download the Comment Rating Field Plugin.
 2. In your Wordpress Administration, go to Plugins > Add New > Upload, and select the plugin ZIP file.
 3. Activate the plugin
+4. Ensure that your comments.php theme file has its form id set to commentsform
 
 == Frequently Asked Questions ==
 
