@@ -1,10 +1,10 @@
 <?php
 /**
 * Plugin Name: Comment Rating Field Plugin
-* Plugin URI: http://www.n7studios.co.uk/portfolio/comment-rating-field-plugin/
+* Plugin URI: http://www.n7studios.co.uk/2010/06/04/wordpress-comment-rating-field-plugin/
 * Version: 1
 * Author: <a href="http://www.n7studios.co.uk/">Tim Carr</a>
-* Description: Adds a 5 star rating field to the comments form in Wordpress.  Requires Wordpress 2.9+
+* Description: Adds a 5 star rating field to the comments form in Wordpress.  Requires Wordpress 3.0+
 */
 
 /**
