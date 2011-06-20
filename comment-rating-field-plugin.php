@@ -24,14 +24,15 @@ class CommentRatingFieldPlugin {
         // Action and Filter Hooks
         add_action('comment_post', array(&$this, 'SaveRating')); // Save Rating Field
         add_action('comment_text', array(&$this, 'DisplayRating')); // Displays Rating on Comments              
+        $pluginURL = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
         
         // Register and load CSS
-        wp_register_style('crfp-rating-css', '/wp-content/plugins/comment-rating-field-plugin/css/rating.css');
+        wp_register_style('crfp-rating-css', $pluginURL.'css/rating.css');
         wp_enqueue_style('crfp-rating-css');
         
         // Register and Enqueue jQuery and Rating Scripts
-        wp_register_script('crfp-jquery-rating-pack', '/wp-content/plugins/comment-rating-field-plugin/js/jquery.rating.pack.js');
-        wp_register_script('crfp-jquery-rating-settings', '/wp-content/plugins/comment-rating-field-plugin/js/jquery.rating.settings.js');
+        wp_register_script('crfp-jquery-rating-pack', $pluginURL.'js/jquery.rating.pack.js');
+        wp_register_script('crfp-jquery-rating-settings', $pluginURL.'js/jquery.rating.settings.js');
         wp_enqueue_script('jquery');
         wp_enqueue_script('crfp-jquery-rating-pack');
         wp_enqueue_script('crfp-jquery-rating-settings');
