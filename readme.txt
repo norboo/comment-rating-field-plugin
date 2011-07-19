@@ -3,7 +3,7 @@ Contributors: Tim Carr
 Donate link: http://www.n7studios.co.uk/2010/06/04/wordpress-comment-rating-field-plugin/
 Tags: comment,rating,field
 Requires at least: 3.0
-Tested up to: 3.1.3
+Tested up to: 3.2.1
 Stable tag: trunk
 
 Adds a 5 star rating field to the end of a comment form in WordPress, allowing the site visitor to optionally submit a 
@@ -20,7 +20,8 @@ the comment text.
 1. Download the Comment Rating Field Plugin.
 2. In your Wordpress Administration, go to Plugins > Add New > Upload, and select the plugin ZIP file.
 3. Activate the plugin
-4. Ensure that your comments.php theme file has its form id set to commentsform
+4. Ensure that your comments.php theme file has its form id set to commentform (if in doubt, just activate the plugin 
+and check to see if the rating field displays on your comments form.
 
 == Frequently Asked Questions ==
 
@@ -30,6 +31,13 @@ the comment text.
 2. Star rating displayed below comment text 
 
 == Changelog ==
+
+= 1.2 =
+* Enable on Pages Option Added
+* Enable on Post Categories Option Added
+* Display Average Option Added - will display the average of all ratings at the top of the comments list.
+* Donate Button Added to Settings Panel
+* Change to readme.txt file for required ID on comment form.
 
 = 1.01 =
 * Fixed paths for CSS and Javascript.
