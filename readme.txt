@@ -3,7 +3,7 @@ Contributors: Tim Carr
 Donate link: http://www.n7studios.co.uk/2010/06/04/wordpress-comment-rating-field-plugin/
 Tags: comment,rating,field
 Requires at least: 3.0
-Tested up to: 3.2.1
+Tested up to: 3.3
 Stable tag: trunk
 
 Adds a 5 star rating field to the end of a comment form in WordPress, allowing the site visitor to optionally submit a 
@@ -31,6 +31,9 @@ and check to see if the rating field displays on your comments form.
 2. Star rating displayed below comment text 
 
 == Changelog ==
+
+= 1.3 =
+* Javascript changes to fix comment rating field not appearing below comment field on some themes.
 
 = 1.2 =
 * Enable on Pages Option Added
