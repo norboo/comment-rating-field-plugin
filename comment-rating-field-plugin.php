@@ -2,8 +2,8 @@
 /**
 * Plugin Name: Comment Rating Field Plugin
 * Plugin URI: http://www.n7studios.co.uk/2010/06/04/wordpress-comment-rating-field-plugin/
-* Version: 1.3
-* Author: <a href="http://www.n7studios.co.uk/">Tim Carr</a>
+* Version: 1.4
+* Author: <a href="http://www.n7studios.co.uk/">n7 Studios</a>
 * Description: Adds a 5 star rating field to the comments form in Wordpress.  Requires Wordpress 3.0+
 */
 
@@ -13,7 +13,7 @@
 * @package Wordpress
 * @subpackage Comment Rating Field Plugin
 * @author Tim Carr
-* @version 1.2
+* @version 1.4
 * @copyright n7 Studios
 */
 class CommentRatingFieldPlugin {
@@ -28,52 +28,30 @@ class CommentRatingFieldPlugin {
 
         // Settings
         $this->settings = get_option($this->plugin->name);
-        if ($this->settings['saved'] != '1') $this->Install();
-
-        // Action and Filter Hooks
-        add_action('comment_post', array(&$this, 'SaveRating')); // Save Rating Field
-        add_action('comment_text', array(&$this, 'DisplayRating')); // Displays Rating on Comments              
-        add_filter('comments_template', array(&$this, 'DisplayAverageRating')); // Displays Average Rating on Comments Template
-
-        // Register and load CSS
-        wp_register_style('crfp-rating-css', $this->plugin->url.'css/rating.css');
-        wp_enqueue_style('crfp-rating-css');
         
-        // Register and Enqueue jQuery and Rating Scripts
+        add_action('comment_post', array(&$this, 'SaveRating')); // Save Rating Field on Comment Post
+	    add_action('comment_text', array(&$this, 'DisplayRating')); // Displays Rating on Comments 
+	    add_filter('the_content', array(&$this, 'DisplayAverageRating')); // Displays Average Rating below Content
+		
         if (is_admin()) {
             add_action('admin_menu', array(&$this, 'AddAdminMenu'));
-            wp_register_style($this->plugin->name.'-admin-css', $this->plugin->url.'css/admin.css'); 
-            wp_enqueue_style($this->plugin->name.'-admin-css');
+            add_action('wp_set_comment_status', array(&$this, 'UpdatePostRatingByCommentID')); // Recalculate average rating on comment approval / hold / spam
+	        add_action('deleted_comment', array(&$this, 'UpdatePostRatingByCommentID')); // Recalculate average rating on comment delete
         } else {
+	        // Action and Filter Hooks
+	        add_action('wp_footer', array(&$this, 'DisplayRatingField')); // Displays Rating Field on Comments Form 
+	
+	        // Register and load CSS
+	        wp_register_style('crfp-rating-css', $this->plugin->url.'css/rating.css');
+	        wp_enqueue_style('crfp-rating-css');
+        
+            // Register and load JS
             wp_register_script('crfp-jquery-rating-pack', $this->plugin->url.'js/jquery.rating.pack.js');
-            wp_register_script('crfp-jquery-rating-settings', $this->plugin->url.'js/jquery.rating.settings.js');
             wp_enqueue_script('jquery');
             wp_enqueue_script('crfp-jquery-rating-pack');
-            wp_enqueue_script('crfp-jquery-rating-settings');
         }
     }
-    
-    /**
-    * Routine for defining default settings for the plugin.
-    */
-    function Install() {
-        // Include all Post categories by default
-        $categories = get_categories('hide_empty=0&taxonomy=category');
-        foreach ($categories as $key=>$category) {
-            if ($category->slug == 'uncategorized') continue; // Skip Uncategorized
-            $newSettings['taxonomies']['categories'][$category->term_id] = '1';
-        }
-        
-        // Enable on Pages and mark as saved
-        $newSettings['enabled']['pages'] = '1';
-        $newSettings['averageRatingText'] = 'Average Rating: ';
-        $newSettings['saved'] = '1';
-        
-        // Save and get new settings
-        update_option($this->plugin->name, $newSettings);
-        $this->settings = get_option($this->plugin->name);    
-    }
-    
+
     /**
     * Adds a single option panel to Wordpress Administration
     */
@@ -88,49 +66,103 @@ class CommentRatingFieldPlugin {
         // Save Settings
         if (isset($_POST['submit'])) {
             update_option($this->plugin->name, $_POST[$this->plugin->name]);
-            $this->message = 'Settings Updated.'; 
+            $this->message = __('Settings Updated.'); 
         }
         
         // Load form
         $this->settings = get_option($this->plugin->name); 
         include_once(WP_PLUGIN_DIR.'/'.$this->plugin->name.'/admin/settings.php');  
     } 
- 
+    
     /**
-    * Saves the POSTed rating for the given comment ID to the comment meta table
+    * Saves the POSTed rating for the given comment ID to the comment meta table,
+    * as well as storing the total ratings and average on the post itself.
     * 
     * @param int $commentID
     */
     function SaveRating($commentID) {
+    	// Save rating against comment
         add_comment_meta($commentID, 'crfp-rating', $_POST['crfp-rating'], true);
+        
+        // Get post ID from comment and store total and average ratings against post
+        // Run here in case comments are set to always be approved
+        $this->UpdatePostRatingByCommentID($commentID); 
     }
     
     /**
-    * Displays the Average Rating on the Comments Template, if required
+    * Calculates the average rating and total number of ratings
+    * for the given post ID, storing it in the post meta.
+    *
+    * @param int @postID Post ID
+    * @return bool Rating Updated
     */
-    function DisplayAverageRating() {
-        global $wpdb, $post;
-        
-        if (!$this->settings['enabled']['average']) return; // Nothing to do
+    function UpdatePostRatingByPostID($postID) {
+    	global $wpdb;	
 
-        // Get average
+		// Calculate average rating and total ratings
         $results = $wpdb->get_results(" SELECT ".$wpdb->prefix."commentmeta.meta_value
                                         FROM ".$wpdb->prefix."comments
                                         LEFT JOIN ".$wpdb->prefix."commentmeta
                                         ON ".$wpdb->prefix."comments.comment_ID = ".$wpdb->prefix."commentmeta.comment_id
-                                        WHERE ".$wpdb->prefix."comments.comment_post_ID = '".mysql_real_escape_string($post->ID)."'
+                                        WHERE ".$wpdb->prefix."comments.comment_post_ID = '".mysql_real_escape_string($postID)."'
+                                        AND ".$wpdb->prefix."comments.comment_approved = '1'
                                         AND ".$wpdb->prefix."commentmeta.meta_key = 'crfp-rating'
                                         AND ".$wpdb->prefix."commentmeta.meta_value != 0
-                                        GROUP BY ".$wpdb->prefix."commentmeta.comment_id");
-                               
-        if (count($results) == 0) return; // No results
-                                        
-        $totalRatings = count($results);
-        foreach ($results as $key=>$result) $totalRating += $result->meta_value;
-        if ($totalRatings == 0 OR $totalRating == 0) return; // No votes - shouldn't reach this condition
-        $averageRating = round(($totalRating / $totalRatings), 0);
+                                        GROUP BY ".$wpdb->prefix."commentmeta.comment_id"); 
+                  
+        if (count($results) == 0) {
+        	$totalRatings = 0;
+        	$averageRating = 0;
+        } else {                            
+	        $totalRatings = count($results);
+	        foreach ($results as $key=>$result) $totalRating += $result->meta_value;
+	        $averageRating = (($totalRatings == 0 OR $totalRating == 0) ? 0 : round(($totalRating / $totalRatings), 0));
+        }
+
+        update_post_meta($postID, 'crfp-total-ratings', $totalRatings);
+        update_post_meta($postID, 'crfp-average-rating', $averageRating);
         
-        echo ('<div class="crfp-average-rating">'.$this->settings['averageRatingText'].'<div class="crfp-rating crfp-rating-'.$averageRating.'"></div></div>');    
+        return true;
+    }
+
+    /**
+    * Called by WP action, passes function call to UpdatePostRatingByPostID
+    *
+    * @param int $commentID Comment ID
+    * @return int Comment ID
+    */
+    function UpdatePostRatingByCommentID($commentID) {
+    	$comment = get_comment($commentID);
+    	$this->UpdatePostRatingByPostID($comment->comment_post_ID);
+    	return true;
+    }
+
+    /**
+    * Displays the Average Rating below the Content, if required
+    *
+    * @param string $content Post Content
+    * @return string Post Content w/ Ratings HTML
+    */
+    function DisplayAverageRating($content) {
+        global $post;
+        
+        if (!$this->settings['enabled']['average']) return $content; // Don't display average
+        $averageRating = get_post_meta($post->ID, 'crfp-average-rating', true); // Get average rating
+        
+        // Check if the meta key exists; if not go and run the calculation
+        if ($averageRating == '') {
+        	$this->UpdatePostRatingByPostID($post->ID);
+        	$averageRating = get_post_meta($post->ID, 'crfp-average-rating', true); // Get average rating
+        }
+
+        // If still no rating, a rating has never been left, so don't display one
+        if ($averageRating == '' OR $averageRating == 0) return $content;
+        
+        // Build rating HTML
+        $ratingHTML = '<div class="crfp-average-rating">'.$this->settings['averageRatingText'].'<div class="crfp-rating crfp-rating-'.$averageRating.'"></div></div>';
+        
+        // Return rating widget with content
+        return $content.$ratingHTML;   
     }
     
     /**
@@ -140,16 +172,16 @@ class CommentRatingFieldPlugin {
     */
     function DisplayRating($comment) {
         global $post;
-        
+
         $commentID = get_comment_ID();
         
         // Check whether we need to display ratings
         if (!$this->display) { // Prevents checking for every comment in a single Post
-            if (is_page() AND $this->settings['enabled']['pages'] == '1') {
+            if (is_singular('page') AND $this->settings['enabled']['pages'] == '1') {
                 $this->display = true;
-            } elseif (is_single()) {
+            } elseif (is_singular('post') AND is_array($this->settings['taxonomies']) AND is_array($this->settings['taxonomies']['category'])) {
                 $postCats = wp_get_post_categories($post->ID);
-                foreach ($this->settings['taxonomies']['categories'] as $catID=>$enabled) {
+                foreach ($this->settings['taxonomies']['category'] as $catID=>$enabled) {
                     if (in_array($catID, $postCats)) {
                         $this->display = true;
                         break;
@@ -167,7 +199,76 @@ class CommentRatingFieldPlugin {
         
         // Just return comment without rating
         return $comment;    
-    }    
+    }  
+    
+    /**
+    * Appends the rating field to the end of the comment form, if required
+    */
+    function DisplayRatingField() {
+    	global $post;
+    	
+    	$displayRatingField = false; // Don't display rating field by default
+    	wp_reset_query(); // Reset to default loop query so we can test if a single Page or Post
+    	if (!is_array($this->settings)) return; // No settings defined
+    	if ($post->comment_status != 'open') return; // Comments are no longer open
+    	if (!is_single($post->ID)) return; // Not a single Post
+    	
+    	// If a Page, check if Pages are enabled for comment ratings
+    	if (is_singular('page') AND is_array($this->settings['enabled']) AND $this->settings['enabled']['pages']) {
+    		$displayRatingField = true;
+    	} elseif (is_array($this->settings['taxonomies'])) {    	
+	    	// Get all terms assigned to this Post
+	    	// Check if we need to display ratings here
+			$taxonomies = get_taxonomies();
+			$ignoreTaxonomies = array('post_tag', 'nav_menu', 'link_category', 'post_format');
+			foreach ($taxonomies as $key=>$taxonomyProgName) {
+				if (in_array($taxonomyProgName, $ignoreTaxonomies)) continue; // Skip ignored taxonomies
+				if (!is_array($this->settings['taxonomies'][$taxonomyProgName])) continue; // Skip this taxonomy
+				
+				// Get terms and build array of term IDs
+				unset($terms, $termIDs);
+				$terms = wp_get_post_terms($post->ID, $taxonomyProgName);
+				foreach ($terms as $key=>$term) $termIDs[] = $term->term_id;
+				
+				// Check if any of the post term IDs have been selected within the plugin
+				foreach ($this->settings['taxonomies'][$taxonomyProgName] as $termID=>$intVal) {
+					if (in_array($termID, $termIDs)) {
+	    				$displayRatingField = true;
+	    				break;
+	    			}	
+				}
+	    	}
+    	}
+    	
+    	// Check if we need to display field
+    	if (!$displayRatingField) return;
+    	
+    	// If here, output rating field
+    	$label = (($this->settings['ratingFieldLabel'] != '') ? '<label for="rating-star">'.$this->settings['ratingFieldLabel'].'</label>' : ''); 
+    	$field = $label.'<input name="rating-star" type="radio" class="star" value="1" /><input name="rating-star" type="radio" class="star" value="2" /><input name="rating-star" type="radio" class="star" value="3" /><input name="rating-star" type="radio" class="star" value="4" /><input name="rating-star" type="radio" class="star" value="5" /><input type="hidden" name="crfp-rating" value="0" />';    	    	
+    	?>
+		<script type="text/javascript">
+	    	jQuery(document).ready(function($) {
+			    if ($('form#commentform textarea[name=comment]').length > 0) {
+			    	// If parent tag is a container for the comment field, append rating after the parent
+			    	var commentField = $('form#commentform textarea[name=comment]');
+			    	var parentTagName = $(commentField).parent().get(0).tagName;
+			    	if (parentTagName == 'P' || parentTagName == 'DIV' || parentTagName == 'LI') {
+			    		// Append rating field as a new element
+			    		$(commentField).parent().after('<'+parentTagName+' class="crfp-field"><?php echo $field; ?></'+parentTagName+'>');
+			    	} else {
+			    		// Append rating field straight after comment field
+			    		$(commentField).after('<?php echo $field; ?>');
+			    	}
+			    
+			    	$('input.star').rating(); // Invoke rating plugin
+			    	$('div.star-rating a').bind('click', function(e) { $('input[name=crfp-rating]').val($(this).html()); }); // Stores rating in hidden field ready for POST
+			    	$('div.rating-cancel a').bind('click', function(e) { $('input[name=crfp-rating]').val('0'); }); // Stores rating in hidden field ready for POST
+				}
+			});
+		</script>
+    	<?php		
+    }  
 }
 $crfp = new CommentRatingFieldPlugin(); // Invoke class
 ?>
