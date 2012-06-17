@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Comment Rating Field Plugin
 * Plugin URI: http://www.n7studios.co.uk/2010/06/04/wordpress-comment-rating-field-plugin/
-* Version: 1.4
+* Version: 1.41
 * Author: <a href="http://www.n7studios.co.uk/">n7 Studios</a>
 * Description: Adds a 5 star rating field to the comments form in Wordpress.  Requires Wordpress 3.0+
 */
@@ -13,7 +13,7 @@
 * @package Wordpress
 * @subpackage Comment Rating Field Plugin
 * @author Tim Carr
-* @version 1.4
+* @version 1.41
 * @copyright n7 Studios
 */
 class CommentRatingFieldPlugin {
@@ -38,17 +38,16 @@ class CommentRatingFieldPlugin {
             add_action('wp_set_comment_status', array(&$this, 'UpdatePostRatingByCommentID')); // Recalculate average rating on comment approval / hold / spam
 	        add_action('deleted_comment', array(&$this, 'UpdatePostRatingByCommentID')); // Recalculate average rating on comment delete
         } else {
-	        // Action and Filter Hooks
-	        add_action('wp_footer', array(&$this, 'DisplayRatingField')); // Displays Rating Field on Comments Form 
-	
 	        // Register and load CSS
 	        wp_register_style('crfp-rating-css', $this->plugin->url.'css/rating.css');
 	        wp_enqueue_style('crfp-rating-css');
         
             // Register and load JS
-            wp_register_script('crfp-jquery-rating-pack', $this->plugin->url.'js/jquery.rating.pack.js');
             wp_enqueue_script('jquery');
-            wp_enqueue_script('crfp-jquery-rating-pack');
+            wp_enqueue_script('crfp-jquery-rating-pack', $this->plugin->url.'js/jquery.rating.pack.js', 'jquery', false, true);
+    
+            // Action and Filter Hooks
+	        add_action('wp_footer', array(&$this, 'DisplayRatingField')); // Displays Rating Field on Comments Form 
         }
     }
 

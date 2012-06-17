@@ -32,6 +32,10 @@ and check to see if the rating field displays on your comments form.
 
 == Changelog ==
 
+= 1.41 =
+* Fix for WordPress 3.4 compatibility
+* jQuery Rating Javascript updated to 3.14
+
 = 1.4 =
 * Removal of Donate Button
 * On Activation, plugin no longer enables ratings on Pages and Posts by default
