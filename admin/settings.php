@@ -27,7 +27,7 @@
                             <div class="inside">
                                 <p>
                                     <strong><?php _e('Enable on Pages'); ?></strong>
-                                    <input type="checkbox" name="<?php echo $this->plugin->name; ?>[enabled][pages]" value="1"<?php echo ($this->settings['enabled']['pages'] == 1 ? ' checked' : ''); ?> />   
+                                    <input type="checkbox" name="<?php echo $this->plugin->name; ?>[enabled][page]" value="1"<?php echo ($this->settings['enabled']['page'] == 1 ? ' checked' : ''); ?> />   
                                 </p>
                                 <p class="description"><?php _e('Displays ratings and the rating field on Pages with comments enabled.'); ?></p>
 

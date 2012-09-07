@@ -1,20 +1,20 @@
 <?php
 /**
 * Plugin Name: Comment Rating Field Plugin
-* Plugin URI: http://www.n7studios.co.uk/2010/06/04/wordpress-comment-rating-field-plugin/
-* Version: 1.41
-* Author: <a href="http://www.n7studios.co.uk/">n7 Studios</a>
-* Description: Adds a 5 star rating field to the comments form in Wordpress.  Requires Wordpress 3.0+
+* Plugin URI: http://www.wpcube.co.uk/crfp
+* Version: 1.42
+* Author: <a href="http://www.wpcube.co.uk/">WP Cube</a>
+* Description: Adds a 5 star rating field to the comments form in WordPress.  Requires WordPress 3.0+
 */
 
 /**
 * Comment Rating Field Plugin Class
 * 
-* @package Wordpress
+* @package WordPress
 * @subpackage Comment Rating Field Plugin
 * @author Tim Carr
-* @version 1.41
-* @copyright n7 Studios
+* @version 1.42
+* @copyright WP Cube
 */
 class CommentRatingFieldPlugin {
     /**
@@ -135,6 +135,55 @@ class CommentRatingFieldPlugin {
     	$this->UpdatePostRatingByPostID($comment->comment_post_ID);
     	return true;
     }
+    
+    /**
+    * Checks if the post can have a rating
+    *
+    * @return bool Post can have rating
+    */
+    function PostCanHaveRating() {
+		global $post;
+
+    	$displayRatingField = false; // Don't display rating field by default
+    	wp_reset_query(); // Reset to default loop query so we can test if a single Page or Post
+
+    	if (!is_array($this->settings)) return; // No settings defined
+    	if ($post->comment_status != 'open') return; // Comments are no longer open
+    	if (!is_singular()) return; // Not a single Post
+		
+    	// Check if post type is enabled
+    	$type = get_post_type($post->ID);
+    	if (is_array($this->settings['enabled']) AND $this->settings['enabled'][$type]) {
+    		// Post type enabled, regardless of taxonomies
+    		$displayRatingField = true;	
+    	} elseif (is_array($this->settings['taxonomies'])) {    	
+	    	// Get all terms assigned to this Post
+	    	// Check if we need to display ratings here
+			$taxonomies = get_taxonomies();
+			$ignoreTaxonomies = array('post_tag', 'nav_menu', 'link_category', 'post_format');
+			foreach ($taxonomies as $key=>$taxonomyProgName) {
+				if (in_array($taxonomyProgName, $ignoreTaxonomies)) continue; // Skip ignored taxonomies
+				if (!is_array($this->settings['taxonomies'][$taxonomyProgName])) continue; // Skip this taxonomy
+				
+				// Get terms and build array of term IDs
+				unset($terms, $termIDs);
+				$terms = wp_get_post_terms($post->ID, $taxonomyProgName);
+				foreach ($terms as $key=>$term) $termIDs[] = $term->term_id;
+
+				// Check if any of the post term IDs have been selected within the plugin
+				if ($termIDs) {
+					foreach ($this->settings['taxonomies'][$taxonomyProgName] as $termID=>$intVal) {
+						if (in_array($termID, $termIDs)) {
+		    				$displayRatingField = true;
+		    				break;
+		    			}	
+					}
+				}
+	    	}
+    	}
+
+    	return $displayRatingField;
+    }
 
     /**
     * Displays the Average Rating below the Content, if required
@@ -176,28 +225,18 @@ class CommentRatingFieldPlugin {
         
         // Check whether we need to display ratings
         if (!$this->display) { // Prevents checking for every comment in a single Post
-            if (is_singular('page') AND $this->settings['enabled']['pages'] == '1') {
-                $this->display = true;
-            } elseif (is_singular('post') AND is_array($this->settings['taxonomies']) AND is_array($this->settings['taxonomies']['category'])) {
-                $postCats = wp_get_post_categories($post->ID);
-                foreach ($this->settings['taxonomies']['category'] as $catID=>$enabled) {
-                    if (in_array($catID, $postCats)) {
-                        $this->display = true;
-                        break;
-                    }
-                }    
-            }
-        }
+        	$this->display = $this->PostCanHaveRating();
+    	}
 
         // Display rating?
         if ($this->display) {
             $rating = get_comment_meta($commentID, 'crfp-rating', true);
             if ($rating == '') $rating = 0;
-            return $comment.'<div class="crfp-rating crfp-rating-'.$rating.'"></div>';
+            return $comment.'<div class="rating'.($this->settings['displayStyle'] == 'grey' ? ' rating-always-on' : '').'"><div class="crfp-rating crfp-rating-'.$rating.'">'.$rating.'</div></div>';
         }
         
         // Just return comment without rating
-        return $comment;    
+        return $comment;  
     }  
     
     /**
@@ -206,41 +245,7 @@ class CommentRatingFieldPlugin {
     function DisplayRatingField() {
     	global $post;
     	
-    	$displayRatingField = false; // Don't display rating field by default
-    	wp_reset_query(); // Reset to default loop query so we can test if a single Page or Post
-    	if (!is_array($this->settings)) return; // No settings defined
-    	if ($post->comment_status != 'open') return; // Comments are no longer open
-    	if (!is_single($post->ID)) return; // Not a single Post
-    	
-    	// If a Page, check if Pages are enabled for comment ratings
-    	if (is_singular('page') AND is_array($this->settings['enabled']) AND $this->settings['enabled']['pages']) {
-    		$displayRatingField = true;
-    	} elseif (is_array($this->settings['taxonomies'])) {    	
-	    	// Get all terms assigned to this Post
-	    	// Check if we need to display ratings here
-			$taxonomies = get_taxonomies();
-			$ignoreTaxonomies = array('post_tag', 'nav_menu', 'link_category', 'post_format');
-			foreach ($taxonomies as $key=>$taxonomyProgName) {
-				if (in_array($taxonomyProgName, $ignoreTaxonomies)) continue; // Skip ignored taxonomies
-				if (!is_array($this->settings['taxonomies'][$taxonomyProgName])) continue; // Skip this taxonomy
-				
-				// Get terms and build array of term IDs
-				unset($terms, $termIDs);
-				$terms = wp_get_post_terms($post->ID, $taxonomyProgName);
-				foreach ($terms as $key=>$term) $termIDs[] = $term->term_id;
-				
-				// Check if any of the post term IDs have been selected within the plugin
-				foreach ($this->settings['taxonomies'][$taxonomyProgName] as $termID=>$intVal) {
-					if (in_array($termID, $termIDs)) {
-	    				$displayRatingField = true;
-	    				break;
-	    			}	
-				}
-	    	}
-    	}
-    	
-    	// Check if we need to display field
-    	if (!$displayRatingField) return;
+    	if (!$this->PostCanHaveRating()) return;
     	
     	// If here, output rating field
     	$label = (($this->settings['ratingFieldLabel'] != '') ? '<label for="rating-star">'.$this->settings['ratingFieldLabel'].'</label>' : ''); 
