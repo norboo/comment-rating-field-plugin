@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Comment Rating Field Plugin
 * Plugin URI: http://www.wpcube.co.uk/crfp
-* Version: 1.42
+* Version: 1.5
 * Author: <a href="http://www.wpcube.co.uk/">WP Cube</a>
 * Description: Adds a 5 star rating field to the comments form in WordPress.  Requires WordPress 3.0+
 */
@@ -13,7 +13,7 @@
 * @package WordPress
 * @subpackage Comment Rating Field Plugin
 * @author Tim Carr
-* @version 1.42
+* @version 1.5
 * @copyright WP Cube
 */
 class CommentRatingFieldPlugin {

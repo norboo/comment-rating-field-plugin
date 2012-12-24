@@ -24,7 +24,7 @@
                         <!-- Settings -->
                         <div class="postbox">
                             <h3 class="hndle"><?php _e('Display Settings'); ?></h3>
-                            <div class="inside">
+                            
                                 <p>
                                     <strong><?php _e('Enable on Pages'); ?></strong>
                                     <input type="checkbox" name="<?php echo $this->plugin->name; ?>[enabled][page]" value="1"<?php echo ($this->settings['enabled']['page'] == 1 ? ' checked' : ''); ?> />   
@@ -76,17 +76,17 @@
                             		<li><strong><?php _e('Custom Post Types'); ?>: </strong><?php _e('Support for rating display and functionality on ANY Custom Post Types and their Taxonomies.'); ?></li>
                             		<li><strong><?php _e('Widgets'); ?>: </strong><?php _e('List the Highest Average Rating Posts within your sidebars.'); ?></li>
                             		<li><strong><?php _e('Shortcodes'); ?>: </strong><?php _e('Use a shortcode to display the Average Rating anywhere within your content.'); ?></li>
-                            		<li><strong><?php _e('Rating Field'); ?>: </strong><?php _e('Make rating field a required field.'); ?></li>
-                            		<li><strong><?php _e('Display Average Rating'); ?>: </strong><?php _e('Choose to display average rating above or below the content.'); ?></li>
+                            		<li><strong><?php _e('Rating Field'); ?>: </strong><?php _e('Make rating field a required field, and choose to display it above or below the other fields on the comments form.'); ?></li>
+                            		<li><strong><?php _e('Display Average Rating'); ?>: </strong><?php _e('Choose to display average rating above or below the content and/or excerpts.'); ?></li>
                             		<li><strong><?php _e('Seamless Upgrade'); ?>: </strong><?php _e('Retain all current settings and ratings when upgrading to Pro.'); ?></li>
                             	</ul>
-                            	<p><a href="http://www.wpcrfp.co.uk/" target="_blank" class="button">Upgrade Now</a></p>
+                            	<p><a href="http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin/" target="_blank" class="button button-primary">Upgrade Now</a></p>
                             </div>
                         </div>
 
                         <!-- Save -->
                         <div class="submit">
-                            <input type="submit" name="submit" value="<?php _e('Save'); ?>" /> 
+                            <input type="submit" name="submit" class="button button-primary" value="<?php _e('Save'); ?>" /> 
                         </div>
                     </div>
                 </div>
