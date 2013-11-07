@@ -58,6 +58,9 @@ Find out more about us:
 
 == Changelog ==
 
+= 2.0.1 =
+* Dashboard CSS + JS enhancements
+
 = 2.0 =
 * Fix: UI enhancements
 
