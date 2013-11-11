@@ -58,6 +58,9 @@ Find out more about us:
 
 == Changelog ==
 
+= 2.0.2 =
+* Committed frontend.js; removed unused files
+
 = 2.0.1 =
 * Dashboard CSS + JS enhancements
 
