@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Comment Rating Field Plugin
 * Plugin URI: http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin
-* Version: 2.0.2
+* Version: 2.0.3
 * Author: WP Cube
 * Author URI: http://www.wpcube.co.uk
 * Description: Adds a 5 star rating field to the comments form in WordPress.
@@ -31,7 +31,7 @@
 * @package WP Cube
 * @subpackage Comment Rating Field Plugin
 * @author Tim Carr
-* @version 2.0.2
+* @version 2.0.3
 * @copyright WP Cube
 */
 class CommentRatingFieldPlugin {
@@ -43,7 +43,7 @@ class CommentRatingFieldPlugin {
         $this->plugin = new stdClass;
         $this->plugin->name = 'comment-rating-field-plugin'; // Plugin Folder
         $this->plugin->displayName = 'Comment Rating Field Plugin'; // Plugin Name
-        $this->plugin->version = '2.0.2';
+        $this->plugin->version = '2.0.3';
         $this->plugin->folder = WP_PLUGIN_DIR.'/'.$this->plugin->name; // Full Path to Plugin Folder
         $this->plugin->url = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
         
@@ -85,9 +85,6 @@ class CommentRatingFieldPlugin {
     * Register and enqueue any JS and CSS for the WordPress Administration
     */
     function adminScriptsAndCSS() {
-    	// JS
-    	wp_enqueue_script($this->plugin->name.'-admin', $this->plugin->url.'js/admin.js', array('jquery'), $this->plugin->version, true);
-    	        
     	// CSS
         wp_enqueue_style($this->plugin->name.'-admin', $this->plugin->url.'css/admin.css', array(), $this->plugin->version); 
     }
