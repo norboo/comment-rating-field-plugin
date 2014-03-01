@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Comment Rating Field Plugin
 * Plugin URI: http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin
-* Version: 2.0
+* Version: 2.0.3
 * Author: WP Cube
 * Author URI: http://www.wpcube.co.uk
 * Description: Adds a 5 star rating field to the comments form in WordPress.
@@ -31,7 +31,7 @@
 * @package WP Cube
 * @subpackage Comment Rating Field Plugin
 * @author Tim Carr
-* @version 2.0
+* @version 2.0.3
 * @copyright WP Cube
 */
 class CommentRatingFieldPlugin {
@@ -43,7 +43,7 @@ class CommentRatingFieldPlugin {
         $this->plugin = new stdClass;
         $this->plugin->name = 'comment-rating-field-plugin'; // Plugin Folder
         $this->plugin->displayName = 'Comment Rating Field Plugin'; // Plugin Name
-        $this->plugin->version = 2.0;
+        $this->plugin->version = '2.0.3';
         $this->plugin->folder = WP_PLUGIN_DIR.'/'.$this->plugin->name; // Full Path to Plugin Folder
         $this->plugin->url = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
         
@@ -54,10 +54,6 @@ class CommentRatingFieldPlugin {
         	array(__('Widgets'), __('List the Highest Average Rating Posts within your sidebars.')),
         	array(__('Shortcodes'), __('Use a shortcode to display the Average Rating anywhere within your content.')),
         	array(__('Display'), __('Enhanced display options, including to display the average rating on excerpts, content, comments; position the average rating and display a rating breakdown.')),
-        	array(__('Support'), __('Access to support ticket system and knowledgebase')),
-        	array(__('Documentation'), __('Detailed documentation on how to install and configure the plugin.')),
-        	array(__('Updates'), __('Receive one click update notifications, right within your WordPress Adminstration panel.')),
-        	array(__('Seamless Upgrade'), __('Retain all current settings when upgrading to Pro.')),
         );             	
         $this->plugin->upgradeURL = 'http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin';
         
@@ -80,7 +76,8 @@ class CommentRatingFieldPlugin {
         } else {
         	$this->settings = get_option($this->plugin->name);
         	add_action('wp_enqueue_scripts', array(&$this, 'frontendScriptsAndCSS'));
-        	add_action('comment_form_after_fields', array(&$this, 'displayRatingField'));
+        	add_action('comment_form_logged_in_after', array(&$this, 'displayRatingField')); // Logged in
+	        add_action('comment_form_after_fields', array(&$this, 'displayRatingField')); // Guest
         }
     }
     
@@ -88,9 +85,6 @@ class CommentRatingFieldPlugin {
     * Register and enqueue any JS and CSS for the WordPress Administration
     */
     function adminScriptsAndCSS() {
-    	// JS
-    	wp_enqueue_script($this->plugin->name.'-admin', $this->plugin->url.'js/admin.js', array('jquery'), $this->plugin->version, true);
-    	        
     	// CSS
         wp_enqueue_style($this->plugin->name.'-admin', $this->plugin->url.'css/admin.css', array(), $this->plugin->version); 
     }
