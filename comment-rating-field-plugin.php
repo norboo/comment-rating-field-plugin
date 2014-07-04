@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Comment Rating Field Plugin
 * Plugin URI: http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin
-* Version: 2.0.3
+* Version: 2.0.6
 * Author: WP Cube
 * Author URI: http://www.wpcube.co.uk
 * Description: Adds a 5 star rating field to the comments form in WordPress.
@@ -31,7 +31,7 @@
 * @package WP Cube
 * @subpackage Comment Rating Field Plugin
 * @author Tim Carr
-* @version 2.0.3
+* @version 2.0.6
 * @copyright WP Cube
 */
 class CommentRatingFieldPlugin {
@@ -43,7 +43,7 @@ class CommentRatingFieldPlugin {
         $this->plugin = new stdClass;
         $this->plugin->name = 'comment-rating-field-plugin'; // Plugin Folder
         $this->plugin->displayName = 'Comment Rating Field Plugin'; // Plugin Name
-        $this->plugin->version = '2.0.3';
+        $this->plugin->version = '2.0.6';
         $this->plugin->folder = WP_PLUGIN_DIR.'/'.$this->plugin->name; // Full Path to Plugin Folder
         $this->plugin->url = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
         
@@ -79,6 +79,8 @@ class CommentRatingFieldPlugin {
         	add_action('comment_form_logged_in_after', array(&$this, 'displayRatingField')); // Logged in
 	        add_action('comment_form_after_fields', array(&$this, 'displayRatingField')); // Guest
         }
+        
+        add_action('plugins_loaded', array(&$this, 'loadLanguageFiles'));
     }
     
     /**
@@ -165,12 +167,13 @@ class CommentRatingFieldPlugin {
                                         AND ".$wpdb->prefix."commentmeta.meta_value != 0
                                         GROUP BY ".$wpdb->prefix."commentmeta.comment_id"); 
                   
-        if (count($results) == 0) {
-        	$totalRatings = 0;
-        	$averageRating = 0;
-        } else {                            
+        $totalRatings = 0;
+        $averageRating = 0;
+        if (count($results) > 0) {                          
 	        $totalRatings = count($results);
-	        foreach ($results as $key=>$result) $totalRating += $result->meta_value;
+	        foreach ($results as $key=>$result) {
+	        	$totalRating += $result->meta_value;
+	        }
 	        $averageRating = (($totalRatings == 0 OR $totalRating == 0) ? 0 : round(($totalRating / $totalRatings), 0));
         }
 
@@ -320,6 +323,13 @@ class CommentRatingFieldPlugin {
 	    <!-- CRFP Fields: End -->
 		<?php		
     }  
+    
+    /**
+	* Loads plugin textdomain
+	*/
+	function loadLanguageFiles() {
+		load_plugin_textdomain($this->plugin->name, false, $this->plugin->name.'/languages/');
+	}
 }
 $crfp = new CommentRatingFieldPlugin();
 ?>
