@@ -1,9 +1,9 @@
 === Comment Rating Field Plugin ===
 Contributors: n7studios,wpcube
 Donate link: http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin
-Tags: comment,field,rating,star,gd,comments,review
+Tags: comment,field,rating,ratings,star,stars,gd,comments,review,reviews,stars,feedback
 Requires at least: 3.6
-Tested up to: 3.8.1
+Tested up to: 4.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -57,6 +57,14 @@ Find out more about us:
 2. Star rating displayed below comment text 
 
 == Changelog ==
+
+= 2.0.7 =
+* Fix: Changed Menu Icon
+* Fix: WordPress 4.0 compatibility
+* Fix: Removed unused admin CSS
+
+= 2.0.6 =
+* Fix: PHP warning on uninitialized $totalRating variable (props: tim.samuelsson)
 
 = 2.0.5 =
 * Added translation support and .pot file
