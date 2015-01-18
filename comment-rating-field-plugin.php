@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Comment Rating Field Plugin
 * Plugin URI: http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin
-* Version: 2.0.7
+* Version: 2.0.8
 * Author: WP Cube
 * Author URI: http://www.wpcube.co.uk
 * Description: Adds a 5 star rating field to the comments form in WordPress.
@@ -31,7 +31,7 @@
 * @package WP Cube
 * @subpackage Comment Rating Field Plugin
 * @author Tim Carr
-* @version 2.0.7
+* @version 2.0.8
 * @copyright WP Cube
 */
 class CommentRatingFieldPlugin {
@@ -43,18 +43,22 @@ class CommentRatingFieldPlugin {
         $this->plugin = new stdClass;
         $this->plugin->name = 'comment-rating-field-plugin'; // Plugin Folder
         $this->plugin->displayName = 'Comment Rating Field Plugin'; // Plugin Name
-        $this->plugin->version = '2.0.7';
+        $this->plugin->version = '2.0.8';
         $this->plugin->folder = WP_PLUGIN_DIR.'/'.$this->plugin->name; // Full Path to Plugin Folder
         $this->plugin->url = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
         
         // Only include these if the free plugin has a pro / premium version:
         $this->plugin->upgradeReasons = array(
         	array(__('Custom Post Types'), __('Support for rating display and functionality on ANY Custom Post Types and their Taxonomies.')),
-        	array(__('Multiple Rating Fields'), __('Create, edit and delete an unlimited number of rating fields. Each field can be targeted to display on a comment form for a specific Custom Post Type and/or Taxonomy.')),
+        	array(__('Multiple Rating Fields and Groups'), __('Create, edit and delete an unlimited number of rating field groups. Each group can have unlimted rating fields, and be targeted to display on a comment form for a specific Custom Post Type and/or Taxonomy.')),
         	array(__('Widgets'), __('List the Highest Average Rating Posts within your sidebars.')),
         	array(__('Shortcodes'), __('Use a shortcode to display the Average Rating anywhere within your content.')),
         	array(__('Display'), __('Enhanced display options, including to display the average rating on excerpts, content, comments; position the average rating and display a rating breakdown.')),
-        );             	
+			array(__('Colors'), __('Define the colours for stars per rating group')),
+			array(__('Amazon Bar Chart Rating Breakdown'), __('Choose to output a breakdown of ratings in the same style as Amazon')),
+			array(__('Limit Ratings'), __('Prevent reviewers leaving more than one comment rating per Post')),
+			array(__('Rich Snippets'), __('Choose a schema (e.g. Review, Product, Place, Person) for your Ratings')),
+		);             	
         $this->plugin->upgradeURL = 'http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin';
         
         // Dashboard Submodule
@@ -146,32 +150,35 @@ class CommentRatingFieldPlugin {
     */
     function updatePostRatingByPostID($postID) {
     	global $wpdb;	
-
-		// Calculate average rating and total ratings
-        $results = $wpdb->get_results(" SELECT ".$wpdb->prefix."commentmeta.meta_value
-                                        FROM ".$wpdb->prefix."comments
-                                        LEFT JOIN ".$wpdb->prefix."commentmeta
-                                        ON ".$wpdb->prefix."comments.comment_ID = ".$wpdb->prefix."commentmeta.comment_id
-                                        WHERE ".$wpdb->prefix."comments.comment_post_ID = '".mysql_real_escape_string($postID)."'
-                                        AND ".$wpdb->prefix."comments.comment_approved = '1'
-                                        AND ".$wpdb->prefix."commentmeta.meta_key = 'crfp-rating'
-                                        AND ".$wpdb->prefix."commentmeta.meta_value != 0
-                                        GROUP BY ".$wpdb->prefix."commentmeta.comment_id"); 
-                  
-        $totalRatings = 0;
+    	
+    	// Get all approved comments and total the number of ratings and rating values for fields
+		$comments = get_comments(array(
+			'post_id' 	=> $postID,
+			'status' 	=> 'approve',
+		));
+		
+		// Calculate
+		$totalRating = 0;
+		$totalRatings = 0;
         $averageRating = 0;
-        if (count($results) > 0) {                          
-	        $totalRatings = count($results);
-	        foreach ($results as $key=>$result) {
-	        	$totalRating += $result->meta_value;
+        if (is_array($comments) AND count($comments) > 0) {
+			// Iterate through comments
+			foreach ($comments as $comment) { 
+				$rating = get_comment_meta($comment->comment_ID, 'crfp-rating', true);
+				if ($rating > 0) {
+					$totalRatings++;
+					$totalRating += $rating;
+				}
 	        }
+	        
+	        // Calculate average rating
 	        $averageRating = (($totalRatings == 0 OR $totalRating == 0) ? 0 : round(($totalRating / $totalRatings), 0));
         }
 
         update_post_meta($postID, 'crfp-total-ratings', $totalRatings);
         update_post_meta($postID, 'crfp-average-rating', $averageRating);
-        
-        return true;
+		
+		return true;
     }
 
     /**
@@ -246,7 +253,7 @@ class CommentRatingFieldPlugin {
         
         if (!isset($this->settings['enabled']['average'])) return $content; // Don't display average
         $averageRating = get_post_meta($post->ID, 'crfp-average-rating', true); // Get average rating
-        
+
         // Check if the meta key exists; if not go and run the calculation
         if ($averageRating == '') {
         	$this->updatePostRatingByPostID($post->ID);
