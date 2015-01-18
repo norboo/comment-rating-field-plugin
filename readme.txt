@@ -1,9 +1,9 @@
 === Comment Rating Field Plugin ===
 Contributors: n7studios,wpcube
 Donate link: http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin
-Tags: comment,field,rating,star,gd,comments,review
+Tags: comment,field,rating,ratings,star,stars,gd,comments,review,reviews,stars,feedback
 Requires at least: 3.6
-Tested up to: 3.8.1
+Tested up to: 4.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,34 +12,34 @@ Adds a 5 star rating field to the end of a comment form in WordPress.
 
 == Description ==
 
-Adds a 5 star rating field to the end of a comment form in WordPress, allowing the site visitor to optionally submit a rating along with their comment. Ratings are displayed as stars below the comment text.
+Comment Rating Field adds a 5 star rating field to the end of a comment form in WordPress, allowing the site visitor to optionally submit a rating along with their comment. Ratings are displayed as stars below the comment text.
+
+= Need More Features? =
+
+<a href="https://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin/" rel="friend" title="Comment Rating Field Pro - WordPress Comment Rating Plugin">Comment Rating Field Pro</a> provides additional functionality:
+
+* Custom Post Types: Support for rating display and functionality on ANY Custom Post Types and their Taxonomies.
+* Multiple Rating Fields and Groups: Create, edit and delete an unlimited number of rating field groups. Each group can have unlimited rating fields, and be targeted to display on a comment form for a specific Custom Post Type and/or Taxonomy.
+* Widgets: List the Highest Average Rating Posts within your sidebars.
+* Shortcodes: Use a shortcode to display the Average Rating anywhere within your content.
+* Enhanced Display Options: Enhanced display options, including to display the average rating on excerpts, content, comments; position the average rating and display a rating breakdown.
+* Colors: Define the colours for stars per rating group
+* Amazon Bar Chart Rating Breakdown: Choose to output a breakdown of ratings in the same style as Amazon
+* Limit Ratings: Prevent reviewers leaving more than one comment rating per Post
+* Rich Snippets: Choose a schema (e.g. Review, Product, Place, Person) for your Ratings
 
 = Support =
 
-*Premium Plugins*
-
-This plugin is available in a Pro version, which contains more features and backed by one to one email support:
-
-= <a href="http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin">Get Pro Version</a> =
-
-For many of our plugins on wordpress.org, Premium versions are available. These typically provide additional functionality,
-and come with one to one email support.
-
-*Free Plugins*
-
 We will do our best to provide support through the WordPress forums. However, please understand that this is a free plugin, 
 so support will be limited. Please read this article on <a href="http://www.wpbeginner.com/beginners-guide/how-to-properly-ask-for-wordpress-support-and-get-it/">how to properly ask for WordPress support and get it</a>.
+
+If you require one to one email support, please consider <a href="http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin" rel="friend">upgrading to the Pro version</a>.
 
 = WP Cube =
 We produce free and premium WordPress Plugins that supercharge your site, by increasing user engagement, boost site visitor numbers
 and keep your WordPress web sites secure.
 
-Find out more about us:
-
-* <a href="http://www.wpcube.co.uk">Our Plugins</a>
-* <a href="http://www.facebook.com/wpcube">Facebook</a>
-* <a href="http://twitter.com/wp_cube">Twitter</a>
-* <a href="https://plus.google.com/b/110192203343779769233/110192203343779769233/posts?rel=author">Google+</a>
+Find out more about us at <a href="http://www.wpcube.co.uk" rel="friend" title="Premium WordPress Plugins">wpcube.co.uk</a>
 
 == Installation ==
 
@@ -57,6 +57,18 @@ Find out more about us:
 2. Star rating displayed below comment text 
 
 == Changelog ==
+
+= 2.0.8 =
+* Added: Spanish translation
+* Fix: Only calculate average rating from approved comments (some comments awaiting moderation were wrongly included in calculations previously)
+
+= 2.0.7 =
+* Fix: Changed Menu Icon
+* Fix: WordPress 4.0 compatibility
+* Fix: Removed unused admin CSS
+
+= 2.0.6 =
+* Fix: PHP warning on uninitialized $totalRating variable (props: tim.samuelsson)
 
 = 2.0.5 =
 * Added translation support and .pot file

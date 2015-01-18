@@ -3,8 +3,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Comment Rating Field Plugin 2.0.5\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/comment-rating-field-plugin\n"
-"POT-Creation-Date: 2014-03-01 18:33:46+00:00\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/comment-rating-"
+"field-plugin\n"
+"POT-Creation-Date: 2014-03-18 20:37:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,7 +14,9 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
 #: _modules/dashboard/views/dashboard-nodata.php:14
-msgid "Thanks for using our plugins - why not check out some of our other amazing Premium WordPress Plugins?"
+msgid ""
+"Thanks for using our plugins - why not check out some of our other amazing "
+"Premium WordPress Plugins?"
 msgstr ""
 
 #: _modules/dashboard/views/dashboard-nodata.php:15
@@ -22,7 +25,9 @@ msgid "Visit WP Cube"
 msgstr ""
 
 #: _modules/dashboard/views/dashboard.php:18
-msgid "Thanks for using our plugins - why not check out some of our other amazing Premium WordPress Plugins below?"
+msgid ""
+"Thanks for using our plugins - why not check out some of our other amazing "
+"Premium WordPress Plugins below?"
 msgstr ""
 
 #: _modules/dashboard/views/dashboard.php:33
@@ -65,7 +70,9 @@ msgid "Updates"
 msgstr ""
 
 #: _modules/dashboard/views/footer-upgrade.php:18
-msgid "Receive one click update notifications, right within your WordPress Adminstration panel"
+msgid ""
+"Receive one click update notifications, right within your WordPress "
+"Adminstration panel"
 msgstr ""
 
 #: _modules/dashboard/views/footer-upgrade.php:19
@@ -86,7 +93,9 @@ msgid "About"
 msgstr ""
 
 #: _modules/dashboard/views/sidebar-donate.php:13
-msgid "Found this plugin useful? Donations to help with support and development are appreciated."
+msgid ""
+"Found this plugin useful? Donations to help with support and development are "
+"appreciated."
 msgstr ""
 
 #: _modules/dashboard/views/sidebar-donate.php:30
@@ -100,7 +109,8 @@ msgstr ""
 
 #: _modules/dashboard/views/sidebar-donate.php:43
 #: _modules/dashboard/views/sidebar-upgrade.php:13
-msgid "Subscribe to the newsletter and receive updates on our WordPress Plugins"
+msgid ""
+"Subscribe to the newsletter and receive updates on our WordPress Plugins"
 msgstr ""
 
 #: _modules/dashboard/views/sidebar-donate.php:49
@@ -122,7 +132,9 @@ msgid "Custom Post Types"
 msgstr ""
 
 #: comment-rating-field-plugin.php:52
-msgid "Support for rating display and functionality on ANY Custom Post Types and their Taxonomies."
+msgid ""
+"Support for rating display and functionality on ANY Custom Post Types and "
+"their Taxonomies."
 msgstr ""
 
 #: comment-rating-field-plugin.php:53
@@ -130,7 +142,10 @@ msgid "Multiple Rating Fields"
 msgstr ""
 
 #: comment-rating-field-plugin.php:53
-msgid "Create, edit and delete an unlimited number of rating fields. Each field can be targeted to display on a comment form for a specific Custom Post Type and/or Taxonomy."
+msgid ""
+"Create, edit and delete an unlimited number of rating fields. Each field can "
+"be targeted to display on a comment form for a specific Custom Post Type and/"
+"or Taxonomy."
 msgstr ""
 
 #: comment-rating-field-plugin.php:54
@@ -146,7 +161,8 @@ msgid "Shortcodes"
 msgstr ""
 
 #: comment-rating-field-plugin.php:55
-msgid "Use a shortcode to display the Average Rating anywhere within your content."
+msgid ""
+"Use a shortcode to display the Average Rating anywhere within your content."
 msgstr ""
 
 #: comment-rating-field-plugin.php:56
@@ -154,7 +170,10 @@ msgid "Display"
 msgstr ""
 
 #: comment-rating-field-plugin.php:56
-msgid "Enhanced display options, including to display the average rating on excerpts, content, comments; position the average rating and display a rating breakdown."
+msgid ""
+"Enhanced display options, including to display the average rating on "
+"excerpts, content, comments; position the average rating and display a "
+"rating breakdown."
 msgstr ""
 
 #: comment-rating-field-plugin.php:112
@@ -182,7 +201,9 @@ msgid "Enable on Categories"
 msgstr ""
 
 #: views/settings.php:60
-msgid "Displays ratings and the rating field on Posts with comments enabled that are assigned to the selected categories."
+msgid ""
+"Displays ratings and the rating field on Posts with comments enabled that "
+"are assigned to the selected categories."
 msgstr ""
 
 #: views/settings.php:66
@@ -190,7 +211,9 @@ msgid "Display Average"
 msgstr ""
 
 #: views/settings.php:70
-msgid "Displays the average rating based on the average of all ratings for the given Page or Post."
+msgid ""
+"Displays the average rating based on the average of all ratings for the "
+"given Page or Post."
 msgstr ""
 
 #: views/settings.php:76
@@ -198,7 +221,9 @@ msgid "Average Rating Text"
 msgstr ""
 
 #: views/settings.php:80
-msgid "If Display Average Rating above is selected, optionally define text to appear before the average rating stars are displayed."
+msgid ""
+"If Display Average Rating above is selected, optionally define text to "
+"appear before the average rating stars are displayed."
 msgstr ""
 
 #: views/settings.php:86
@@ -206,12 +231,15 @@ msgid "Rating Field Label"
 msgstr ""
 
 #: views/settings.php:90
-msgid "The text to display for the rating form field label. If blank, no label is displayed."
+msgid ""
+"The text to display for the rating form field label. If blank, no label is "
+"displayed."
 msgstr ""
 
 #: views/settings.php:96
 msgid "Save"
 msgstr ""
+
 #. Plugin Name of the plugin/theme
 msgid "Comment Rating Field Plugin"
 msgstr ""
