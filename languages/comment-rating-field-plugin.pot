@@ -1,15 +1,15 @@
-# Copyright (C) 2014 Comment Rating Field Plugin
+# Copyright (C) 2015 Comment Rating Field Plugin
 # This file is distributed under the same license as the Comment Rating Field Plugin package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Comment Rating Field Plugin 2.0.5\n"
+"Project-Id-Version: Comment Rating Field Plugin 2.0.8\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/comment-rating-"
 "field-plugin\n"
-"POT-Creation-Date: 2014-03-18 20:37:07+00:00\n"
+"POT-Creation-Date: 2015-03-26 11:32:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -48,7 +48,7 @@ msgstr ""
 
 #: _modules/dashboard/views/footer-upgrade.php:16
 #: _modules/dashboard/views/sidebar-pro.php:23
-#: _modules/dashboard/views/sidebar-pro.php:28
+#: _modules/dashboard/views/sidebar-pro.php:30 admin/settings.php:75
 msgid "Support"
 msgstr ""
 
@@ -57,7 +57,7 @@ msgid "Access to one on one email support"
 msgstr ""
 
 #: _modules/dashboard/views/footer-upgrade.php:17
-#: _modules/dashboard/views/sidebar-pro.php:27
+#: _modules/dashboard/views/sidebar-pro.php:28
 msgid "Documentation"
 msgstr ""
 
@@ -75,7 +75,7 @@ msgid ""
 "Adminstration panel"
 msgstr ""
 
-#: _modules/dashboard/views/footer-upgrade.php:19
+#: _modules/dashboard/views/footer-upgrade.php:19 admin/settings.php:81
 msgid "Seamless Upgrade"
 msgstr ""
 
@@ -127,42 +127,129 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: comment-rating-field-plugin.php:52
+#: admin/settings.php:3 views/settings.php:3
+msgid "Settings"
+msgstr ""
+
+#: admin/settings.php:26 views/settings.php:27
+msgid "Display Settings"
+msgstr ""
+
+#: admin/settings.php:29 views/settings.php:31
+msgid "Enable on Pages"
+msgstr ""
+
+#: admin/settings.php:32
+msgid "Displays ratings and the rating field on Pages with comments enabled."
+msgstr ""
+
+#: admin/settings.php:34 admin/settings.php:36
+msgid "Enable on Post Categories"
+msgstr ""
+
+#: admin/settings.php:47 views/settings.php:60
+msgid ""
+"Displays ratings and the rating field on Posts with comments enabled that "
+"are assigned to the selected categories."
+msgstr ""
+
+#: admin/settings.php:50 admin/settings.php:80
+msgid "Display Average Rating"
+msgstr ""
+
+#: admin/settings.php:53 views/settings.php:70
+msgid ""
+"Displays the average rating based on the average of all ratings for the "
+"given Page or Post."
+msgstr ""
+
+#: admin/settings.php:56 views/settings.php:76
+msgid "Average Rating Text"
+msgstr ""
+
+#: admin/settings.php:59 views/settings.php:80
+msgid ""
+"If Display Average Rating above is selected, optionally define text to "
+"appear before the average rating stars are displayed."
+msgstr ""
+
+#: admin/settings.php:62 views/settings.php:86
+msgid "Rating Field Label"
+msgstr ""
+
+#: admin/settings.php:65 views/settings.php:90
+msgid ""
+"The text to display for the rating form field label. If blank, no label is "
+"displayed."
+msgstr ""
+
+#: admin/settings.php:71
+msgid "Pro Settings and Support"
+msgstr ""
+
+#: admin/settings.php:75
+msgid "Access to support ticket system and knowledgebase."
+msgstr ""
+
+#: admin/settings.php:76 comment-rating-field-plugin.php:52
 msgid "Custom Post Types"
 msgstr ""
 
-#: comment-rating-field-plugin.php:52
+#: admin/settings.php:76 comment-rating-field-plugin.php:52
 msgid ""
 "Support for rating display and functionality on ANY Custom Post Types and "
 "their Taxonomies."
 msgstr ""
 
-#: comment-rating-field-plugin.php:53
-msgid "Multiple Rating Fields"
-msgstr ""
-
-#: comment-rating-field-plugin.php:53
-msgid ""
-"Create, edit and delete an unlimited number of rating fields. Each field can "
-"be targeted to display on a comment form for a specific Custom Post Type and/"
-"or Taxonomy."
-msgstr ""
-
-#: comment-rating-field-plugin.php:54
+#: admin/settings.php:77 comment-rating-field-plugin.php:54
 msgid "Widgets"
 msgstr ""
 
-#: comment-rating-field-plugin.php:54
+#: admin/settings.php:77 comment-rating-field-plugin.php:54
 msgid "List the Highest Average Rating Posts within your sidebars."
 msgstr ""
 
-#: comment-rating-field-plugin.php:55
+#: admin/settings.php:78 comment-rating-field-plugin.php:55
 msgid "Shortcodes"
 msgstr ""
 
-#: comment-rating-field-plugin.php:55
+#: admin/settings.php:78 comment-rating-field-plugin.php:55
 msgid ""
 "Use a shortcode to display the Average Rating anywhere within your content."
+msgstr ""
+
+#: admin/settings.php:79
+msgid "Rating Field"
+msgstr ""
+
+#: admin/settings.php:79
+msgid ""
+"Make rating field a required field, and choose to display it above or below "
+"the other fields on the comments form."
+msgstr ""
+
+#: admin/settings.php:80
+msgid ""
+"Choose to display average rating above or below the content and/or excerpts."
+msgstr ""
+
+#: admin/settings.php:81
+msgid "Retain all current settings and ratings when upgrading to Pro."
+msgstr ""
+
+#: admin/settings.php:89 views/settings.php:96
+msgid "Save"
+msgstr ""
+
+#: comment-rating-field-plugin.php:53
+msgid "Multiple Rating Fields and Groups"
+msgstr ""
+
+#: comment-rating-field-plugin.php:53
+msgid ""
+"Create, edit and delete an unlimited number of rating field groups. Each "
+"group can have unlimted rating fields, and be targeted to display on a "
+"comment form for a specific Custom Post Type and/or Taxonomy."
 msgstr ""
 
 #: comment-rating-field-plugin.php:56
@@ -176,20 +263,40 @@ msgid ""
 "rating breakdown."
 msgstr ""
 
-#: comment-rating-field-plugin.php:112
+#: comment-rating-field-plugin.php:57
+msgid "Colors"
+msgstr ""
+
+#: comment-rating-field-plugin.php:57
+msgid "Define the colours for stars per rating group"
+msgstr ""
+
+#: comment-rating-field-plugin.php:58
+msgid "Amazon Bar Chart Rating Breakdown"
+msgstr ""
+
+#: comment-rating-field-plugin.php:58
+msgid "Choose to output a breakdown of ratings in the same style as Amazon"
+msgstr ""
+
+#: comment-rating-field-plugin.php:59
+msgid "Limit Ratings"
+msgstr ""
+
+#: comment-rating-field-plugin.php:59
+msgid "Prevent reviewers leaving more than one comment rating per Post"
+msgstr ""
+
+#: comment-rating-field-plugin.php:60
+msgid "Rich Snippets"
+msgstr ""
+
+#: comment-rating-field-plugin.php:60
+msgid "Choose a schema (e.g. Review, Product, Place, Person) for your Ratings"
+msgstr ""
+
+#: comment-rating-field-plugin.php:107
 msgid "Settings Updated."
-msgstr ""
-
-#: views/settings.php:3
-msgid "Settings"
-msgstr ""
-
-#: views/settings.php:27
-msgid "Display Settings"
-msgstr ""
-
-#: views/settings.php:31
-msgid "Enable on Pages"
 msgstr ""
 
 #: views/settings.php:38
@@ -200,44 +307,8 @@ msgstr ""
 msgid "Enable on Categories"
 msgstr ""
 
-#: views/settings.php:60
-msgid ""
-"Displays ratings and the rating field on Posts with comments enabled that "
-"are assigned to the selected categories."
-msgstr ""
-
 #: views/settings.php:66
 msgid "Display Average"
-msgstr ""
-
-#: views/settings.php:70
-msgid ""
-"Displays the average rating based on the average of all ratings for the "
-"given Page or Post."
-msgstr ""
-
-#: views/settings.php:76
-msgid "Average Rating Text"
-msgstr ""
-
-#: views/settings.php:80
-msgid ""
-"If Display Average Rating above is selected, optionally define text to "
-"appear before the average rating stars are displayed."
-msgstr ""
-
-#: views/settings.php:86
-msgid "Rating Field Label"
-msgstr ""
-
-#: views/settings.php:90
-msgid ""
-"The text to display for the rating form field label. If blank, no label is "
-"displayed."
-msgstr ""
-
-#: views/settings.php:96
-msgid "Save"
 msgstr ""
 
 #. Plugin Name of the plugin/theme

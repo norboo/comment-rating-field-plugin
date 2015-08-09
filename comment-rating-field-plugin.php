@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Comment Rating Field Plugin
 * Plugin URI: http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin
-* Version: 2.0.8
+* Version: 2.0.9
 * Author: WP Cube
 * Author URI: http://www.wpcube.co.uk
 * Description: Adds a 5 star rating field to the comments form in WordPress.
@@ -31,22 +31,24 @@
 * @package WP Cube
 * @subpackage Comment Rating Field Plugin
 * @author Tim Carr
-* @version 2.0.8
+* @version 2.0.9
 * @copyright WP Cube
 */
 class CommentRatingFieldPlugin {
+
     /**
     * Constructor.
     */
-    function CommentRatingFieldPlugin() {
+    function __construct() {
+
         // Plugin Details
-        $this->plugin = new stdClass;
-        $this->plugin->name = 'comment-rating-field-plugin'; // Plugin Folder
-        $this->plugin->displayName = 'Comment Rating Field Plugin'; // Plugin Name
-        $this->plugin->version = '2.0.8';
-        $this->plugin->folder = WP_PLUGIN_DIR.'/'.$this->plugin->name; // Full Path to Plugin Folder
-        $this->plugin->url = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
-        
+        $this->plugin               = new stdClass;
+        $this->plugin->name         = 'comment-rating-field-plugin'; // Plugin Folder
+        $this->plugin->displayName  = 'Comment Rating Field Plugin'; // Plugin Name
+        $this->plugin->version      = '2.0.9';
+        $this->plugin->folder       = plugin_dir_path( __FILE__ );
+        $this->plugin->url          = plugin_dir_url( __FILE__ );
+
         // Only include these if the free plugin has a pro / premium version:
         $this->plugin->upgradeReasons = array(
         	array(__('Custom Post Types'), __('Support for rating display and functionality on ANY Custom Post Types and their Taxonomies.')),
@@ -58,6 +60,7 @@ class CommentRatingFieldPlugin {
 			array(__('Amazon Bar Chart Rating Breakdown'), __('Choose to output a breakdown of ratings in the same style as Amazon')),
 			array(__('Limit Ratings'), __('Prevent reviewers leaving more than one comment rating per Post')),
 			array(__('Rich Snippets'), __('Choose a schema (e.g. Review, Product, Place, Person) for your Ratings')),
+            array(__('WooCommerce Support'), __('Replace WooCommerce\'s built in reviewing system with a multi field, enhanced one')),
 		);             	
         $this->plugin->upgradeURL = 'http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin';
         
@@ -84,6 +87,7 @@ class CommentRatingFieldPlugin {
         }
         
         add_action('plugins_loaded', array(&$this, 'loadLanguageFiles'));
+
     }
     
     /**
