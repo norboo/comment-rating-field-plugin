@@ -35,7 +35,7 @@ Comment Rating Field adds a 5 star rating field to the end of a comment form in 
 We will do our best to provide support through the WordPress forums. However, please understand that this is a free plugin, 
 so support will be limited. Please read this article on <a href="http://www.wpbeginner.com/beginners-guide/how-to-properly-ask-for-wordpress-support-and-get-it/">how to properly ask for WordPress support and get it</a>.
 
-If you require one to one email support, please consider <a href="http://www.wpcube.co.uk/plugins/wordpress-to-buffer-pro" rel="friend">upgrading to the Pro version</a>.
+If you require one to one email support, please consider <a href="http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin" rel="friend">upgrading to the Pro version</a>.
 
 = WP Cube =
 We produce free and premium WordPress Plugins that supercharge your site, by increasing user engagement, boost site visitor numbers
