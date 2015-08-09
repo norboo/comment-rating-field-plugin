@@ -60,7 +60,7 @@ Find out more about us at <a href="http://www.wpcube.co.uk" rel="friend" title="
 
 == Changelog ==
 
-= 2.0.9
+= 2.0.9 =
 * Tested with WordPress 4.3
 * Fix: plugin_dir_path() and plugin_dir_url() used for Multisite / symlink support
 
