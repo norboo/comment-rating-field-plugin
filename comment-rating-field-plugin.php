@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Comment Rating Field Plugin
 * Plugin URI: http://www.wpcube.co.uk/plugins/comment-rating-field-pro-plugin
-* Version: 2.0.9
+* Version: 2.0.10
 * Author: WP Cube
 * Author URI: http://www.wpcube.co.uk
 * Description: Adds a 5 star rating field to the comments form in WordPress. Modified by Norboo.
@@ -205,12 +205,12 @@ class CommentRatingFieldPlugin {
     function postCanHaveRating() {
 		global $post;
 
-    	$displayRatingField = false; // Don't display rating field by default
+    	$displayRatingField = true; // Don't display rating field by default
     	wp_reset_query(); // Reset to default loop query so we can test if a single Page or Post
 
     	if (!is_array($this->settings)) return; // No settings defined
     	if ($post->comment_status != 'open') return; // Comments are no longer open
-    	if (!is_singular()) return; // Not a single Post
+    	//if (!is_singular()) return; // Not a single Post
 		
     	// Check if post type is enabled
     	$type = get_post_type($post->ID);
@@ -257,18 +257,21 @@ class CommentRatingFieldPlugin {
         
         if (!isset($this->settings['enabled']['average'])) return $content; // Don't display average
         $averageRating = get_post_meta($post->ID, 'crfp-average-rating', true); // Get average rating
+	$totalRatings = get_post_meta($post->ID, 'crfp-total-ratings', true); // Get total number ratings
 
         // Check if the meta key exists; if not go and run the calculation
         if ($averageRating == '') {
         	$this->updatePostRatingByPostID($post->ID);
         	$averageRating = get_post_meta($post->ID, 'crfp-average-rating', true); // Get average rating
+		
         }
 
         // If still no rating, a rating has never been left, so don't display one
         if ($averageRating == '' OR $averageRating == 0) return $content;
         
         // Build rating HTML
-        $ratingHTML = '<div class="crfp-average-rating">'.$this->settings['averageRatingText'].'<div class="crfp-rating crfp-rating-'.$averageRating.'"></div></div>';
+        //$ratingHTML = '<div class="crfp-average-rating">'.$this->settings['averageRatingText'].'<div class="crfp-rating crfp-rating-'.$averageRating.'"></div></div>';
+	$ratingHTML = '<div class="crfp-average-rating"><div class="big-star">'.$averageRating.'</div><div>'.$this->settings['averageRatingText'].'<strong>'.$averageRating.'</strong>/5 out of '.$totalRatings.' reviews</div></div>';
         
         // Return rating widget with content
         return $content.$ratingHTML;   
