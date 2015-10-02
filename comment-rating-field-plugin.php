@@ -5,7 +5,7 @@
 * Version: 2.0.9
 * Author: WP Cube
 * Author URI: http://www.wpcube.co.uk
-* Description: Adds a 5 star rating field to the comments form in WordPress.
+* Description: Adds a 5 star rating field to the comments form in WordPress. Modified by Norboo.
 * License: GPL2
 */
 
