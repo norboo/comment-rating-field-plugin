@@ -32,10 +32,10 @@
                                 <p class="description"><?php _e('Displays ratings and the rating field on Pages with comments enabled.'); ?></p>
                             
                             <p>
-                                    <strong><?php _e('Enable on Products'); ?></strong>
-                                    <input type="checkbox" name="<?php echo $this->plugin->name; ?>[enabled][product]" value="1"<?php echo ($this->settings['enabled']['product'] == 1 ? ' checked' : ''); ?> />   
+                                    <strong><?php _e('Enable on Reviews'); ?></strong>
+                                    <input type="checkbox" name="<?php echo $this->plugin->name; ?>[enabled][review]" value="1"<?php echo ($this->settings['enabled']['review'] == 1 ? ' checked' : ''); ?> />   
                                 </p>
-                                <p class="description"><?php _e('Displays ratings and the rating field on Products with comments enabled.'); ?></p>
+                                <p class="description"><?php _e('Displays ratings and the rating field on Reviews with comments enabled.'); ?></p>
                             
 
                                 <p><strong><?php _e('Enable on Post Categories'); ?></strong></p>
