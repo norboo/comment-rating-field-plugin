@@ -32,6 +32,12 @@
 		                    	    <input type="checkbox" name="<?php echo $this->plugin->name; ?>[enabled][page]" value="1"<?php echo (isset($this->settings['enabled']['page']) ? ' checked' : ''); ?> />   
 		                    	</p>
 		                    </div>
+                            <div class="option">
+		                    	<p>
+		                    		<strong><?php _e('Enable on Reviews', $this->plugin->name); ?></strong>
+		                    	    <input type="checkbox" name="<?php echo $this->plugin->name; ?>[enabled][review]" value="1"<?php echo (isset($this->settings['enabled']['review']) ? ' checked' : ''); ?> />   
+		                    	</p>
+		                    </div>
 		                    
 		                    <div class="option">
 		                    	<p>
